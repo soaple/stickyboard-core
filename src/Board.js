@@ -21,8 +21,8 @@ const styles = theme => ({
 const RGL_LAYOUT_PROPS = {
     className: 'layout',
     rowHeight: 40,
-    cols: {lg: 12, md: 12, sm: 8, xs: 6, xxs: 4},
-    breakpoints: {lg: 1280, md: 996, sm: 768, xs: 480, xxs: 0},
+    cols: { lg: 12, md: 12, sm: 8, xs: 6, xxs: 4 },
+    breakpoints: { lg: 1280, md: 996, sm: 768, xs: 480, xxs: 0 },
     margin: [15, 20],
     measureBeforeMount: false,
     useCSSTransforms: true,
@@ -89,8 +89,8 @@ class Board extends React.Component {
                 // Generate tiny layout for saving to the server
                 let newLayouts = {};
 
-                let breakpoints = _.keys(allLayouts);
-                _.each(breakpoints, (breakpoint) => {
+                let breakpoints = Object.keys(allLayouts);
+                breakpoints.map((breakpoint) => {
                     let newLayout = [];
                     let layout = allLayouts[breakpoint];
                     _.each(layout, (block) => {
