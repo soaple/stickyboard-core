@@ -105,6 +105,10 @@ class Board extends React.Component {
 
                     newLayouts[breakpoint] = newLayout;
                 });
+
+                if (this.props.onLayoutChange) {
+                    this.props.onLayoutChange(newLayouts);
+                }
             });
         }
     }
