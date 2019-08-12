@@ -1,0 +1,47 @@
+{
+  "name": "@stickyboard/core",
+  "version": "0.1.0",
+  "description": "Core components for StickyBoard",
+  "main": "index.js",
+  "scripts": {
+    "test": "highcharts",
+    "start": "webpack --watch",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.3.0",
+    "@material-ui/icons": "^4.2.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-grid-layout": "^0.16.6",
+    "react-resize-detector": "^4.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soaple/stickyboard-highcharts.git"
+  },
+  "keywords": [
+    "stickyboard",
+    "react",
+    "dashboard"
+  ],
+  "author": "soaple",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/soaple/stickyboard-highcharts/issues"
+  },
+  "homepage": "https://github.com/soaple/stickyboard-highcharts#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.38.0",
+    "webpack-cli": "^3.3.6"
+  }
+}
