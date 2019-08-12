@@ -1,12 +1,13 @@
 // src/Board.js
 
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import { withStyles } from '@material-ui/core/styles';
-
+import ReactResizeDetector from 'react-resize-detector';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
+
+require('react-grid-layout/css/styles.css');
+require('react-resizable/css/styles.css');
+require('./static/css/react-grid-layout.css');
 
 const styles = theme => ({
     root: {
@@ -14,6 +15,8 @@ const styles = theme => ({
         height: '100%',
     },
 });
+
+const ROWS = 24;
 
 /**
  * React-Grid-Layout layout props
@@ -33,7 +36,9 @@ class Board extends React.Component {
         super(props);
 
         this.state = {
-            isEditingMode: false
+            currentBreakpoint: 'lg',
+            isEditingMode: false,
+            layoutUpdateFlag: true,
         }
     }
 
@@ -54,8 +59,10 @@ class Board extends React.Component {
     }
 
     getLayouts = (isEditingMode) => {
-        let layouts = this.state.layouts;
-        _.each(layouts, (layout) => {
+        let layouts = this.props.layouts;
+
+        for (let key in layouts) {
+            let layout = layouts[key];
             layout.forEach((block) => {
                 block.static = !isEditingMode;
                 block.isDraggable = isEditingMode;
@@ -65,7 +72,7 @@ class Board extends React.Component {
                 block.minH = 4;
                 block.maxH = 16;
             });
-        });
+        }
 
         return layouts;
     }
@@ -93,7 +100,7 @@ class Board extends React.Component {
                 breakpoints.map((breakpoint) => {
                     let newLayout = [];
                     let layout = allLayouts[breakpoint];
-                    _.each(layout, (block) => {
+                    layout.map((block) => {
                         let newBlock = {};
                         newBlock.i = block.i;
                         newBlock.x = block.x;
@@ -112,25 +119,27 @@ class Board extends React.Component {
 
     render () {
         const { isEditingMode } = this.state;
-        const { classes, theme } = this.props;
 
         return (
-            <ResponsiveReactGridLayout
-                {...RGL_LAYOUT_PROPS}
-                layouts={this.getLayouts(isEditingMode)}
-                onBreakpointChange={this.onBreakpointChange}
-                onLayoutChange={this.onLayoutChange}>
-                {this.props.children.map((child, index) => {
+            <ReactResizeDetector
+                handleWidth
+                handleHeight
+                render={({ width, height }) => {
+                    const rowHeight = height / ROWS;
 
-                })}
-            </ResponsiveReactGridLayout>
+                    return (
+                        <ResponsiveReactGridLayout
+                            {...RGL_LAYOUT_PROPS}
+                            rowHeight={rowHeight}
+                            layouts={this.getLayouts(isEditingMode)}
+                            onBreakpointChange={this.onBreakpointChange}
+                            onLayoutChange={this.onLayoutChange}>
+                            {this.props.children}
+                        </ResponsiveReactGridLayout>
+                    )
+                }} />
         )
     }
 }
 
-Board.propTypes = {
-    classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles, { withTheme: true })(Board);
+export default Board;
