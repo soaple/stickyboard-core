@@ -69,7 +69,8 @@ class Board extends React.Component {
             });
         }
 
-        return layouts;
+        return JSON.parse(JSON.stringify(layouts));
+        // return layouts;
     }
 
     onBreakpointChange = (breakpoint) => {
