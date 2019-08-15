@@ -23,38 +23,43 @@ const RGL_LAYOUT_PROPS = {
 
 const NUM_OF_ROWS = 24;
 
+const tvModeStyle = {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 1500,
+    backgroundColor: '#ffffff',
+}
+
 class Board extends React.Component {
     constructor (props) {
         super(props);
 
         this.state = {
             currentBreakpoint: 'lg',
-            layoutUpdateFlag: true,
+            isEditingMode: false,
+            isTvMode: false,
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        // Check if the editing mode is changed or not
-        // if (this.props.isEditingMode !== nextProps.isEditingMode) {
-        //     this.toggleEditingMode(nextProps.isEditingMode);
-        // }
+    toggleEditingMode = () => {
+        this.setState(prevState => ({
+            isEditingMode: !prevState.isEditingMode
+        }));
     }
 
-    toggleEditingMode = (editingMode) => {
-        let layouts = this.getLayouts(editingMode);
-        this.setState({
-            layouts: {},
-            layoutUpdateFlag: false,
-        }, () => {
-            this.setState({
-                layouts: layouts,
-                layoutUpdateFlag: true,
-            })
-        });
+    toggleTvMode = () => {
+        this.setState(prevState => ({
+            isTvMode: !prevState.isTvMode
+        }));
     }
 
     getLayouts = (isEditingMode) => {
-        let layouts = this.props.layouts;
+        const { layouts } = this.props;
 
         for (let key in layouts) {
             let layout = layouts[key];
@@ -82,45 +87,40 @@ class Board extends React.Component {
     onLayoutChange = (currentLayout, allLayouts) => {
         // console.log('onLayoutChange', currentLayout, allLayouts);
 
-        if (this.state.layoutUpdateFlag) {
-            this.setState({
-                layouts: allLayouts,
-            }, () => {
-                // Generate tiny layout for saving to the server
-                let newLayouts = {};
+        // Generate tiny layout for saving to the server
+        let newLayouts = {};
 
-                let breakpoints = Object.keys(allLayouts);
-                breakpoints.map((breakpoint) => {
-                    let newLayout = [];
-                    let layout = allLayouts[breakpoint];
-                    layout.map((block) => {
-                        let newBlock = {};
-                        newBlock.i = block.i;
-                        newBlock.x = block.x;
-                        newBlock.y = block.y;
-                        newBlock.w = block.w;
-                        newBlock.h = block.h;
+        let breakpoints = Object.keys(allLayouts);
+        breakpoints.map((breakpoint) => {
+            let newLayout = [];
+            let layout = allLayouts[breakpoint];
+            layout.map((block) => {
+                let newBlock = {};
+                newBlock.i = block.i;
+                newBlock.x = block.x;
+                newBlock.y = block.y;
+                newBlock.w = block.w;
+                newBlock.h = block.h;
 
-                        newLayout.push(newBlock);
-                    });
-
-                    newLayouts[breakpoint] = newLayout;
-                });
-
-                if (this.props.onLayoutChange) {
-                    this.props.onLayoutChange(newLayouts);
-                }
+                newLayout.push(newBlock);
             });
+
+            newLayouts[breakpoint] = newLayout;
+        });
+
+        if (this.props.onLayoutChange) {
+            this.props.onLayoutChange(newLayouts);
         }
     }
 
     render () {
-        const { isEditingMode } = this.props;
+        const { isEditingMode, isTvMode } = this.state;
 
         const rowHeight = window.innerHeight / NUM_OF_ROWS;
 
         return (
             <ResponsiveReactGridLayout
+                style={isTvMode ? tvModeStyle : {}}
                 {...RGL_LAYOUT_PROPS}
                 rowHeight={rowHeight}
                 layouts={this.getLayouts(isEditingMode)}
