@@ -1,8 +1,9 @@
 // src/Board.js
 
 import React from 'react';
-import { Responsive, WidthProvider } from 'react-grid-layout';
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+import { Responsive as ResponsiveGridLayout, WidthProvider } from 'react-grid-layout';
+// const ResponsiveReactGridLayout = WidthProvider(Responsive);
+import { SizeMe } from 'react-sizeme';
 
 require('react-grid-layout/css/styles.css');
 require('react-resizable/css/styles.css');
@@ -119,15 +120,26 @@ class Board extends React.Component {
         const rowHeight = window.innerHeight / NUM_OF_ROWS;
 
         return (
-            <ResponsiveReactGridLayout
-                style={isTvMode ? tvModeStyle : {}}
-                {...RGL_LAYOUT_PROPS}
-                rowHeight={rowHeight}
-                layouts={this.getLayouts(isEditingMode)}
-                onBreakpointChange={this.onBreakpointChange}
-                onLayoutChange={this.onLayoutChange}>
-                {this.props.children}
-            </ResponsiveReactGridLayout>
+            <SizeMe monitorHeight>
+                {({ size }) => {
+                    // console.log(size);
+                    if (size.width) {
+                        return (
+                            <ResponsiveGridLayout
+                                width={size.width}
+                                style={isTvMode ? tvModeStyle : {}}
+                                {...RGL_LAYOUT_PROPS}
+                                rowHeight={rowHeight}
+                                layouts={this.getLayouts(isEditingMode)}
+                                onBreakpointChange={this.onBreakpointChange}
+                                onLayoutChange={this.onLayoutChange}>
+                                {this.props.children}
+                            </ResponsiveGridLayout>);
+                    } else {
+                        return null;
+                    }
+                }}
+            </SizeMe>
         )
     }
 }
