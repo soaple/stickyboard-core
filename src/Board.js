@@ -24,6 +24,12 @@ const RGL_LAYOUT_PROPS = {
 
 const NUM_OF_ROWS = 24;
 
+const normalModeStyle = {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#ffffff',
+}
+
 const tvModeStyle = {
     position: 'absolute',
     left: 0,
@@ -127,7 +133,7 @@ class Board extends React.Component {
                         return (
                             <ResponsiveGridLayout
                                 width={size.width}
-                                style={isTvMode ? tvModeStyle : {}}
+                                style={isTvMode ? tvModeStyle : normalModeStyle}
                                 {...RGL_LAYOUT_PROPS}
                                 rowHeight={rowHeight}
                                 layouts={this.getLayouts(isEditingMode)}
