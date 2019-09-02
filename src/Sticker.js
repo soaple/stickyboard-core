@@ -39,15 +39,15 @@ const Shadow = styled.div`
     transition: visibility 0.5s ease-in-out;
 `;
 
-// const Content = styled.div`
-//     position: absolute;
-//     left: 0;
-//     top: 0;
-//     right: 0;
-//     bottom: 0;
-//     padding: 16px;
-//     z-index: 1;
-// `;
+const Content = styled.div`
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 16px;
+    z-index: 1;
+`;
 
 class Sticker extends React.Component {
     constructor (props) {
@@ -66,7 +66,9 @@ class Sticker extends React.Component {
             <Wrapper
                 {...other}>
                 <Shadow isEditMode={isEditMode} />
-                {children}
+                <Content>
+                    {children}
+                </Content>
             </Wrapper>
         )
     }
