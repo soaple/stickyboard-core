@@ -1,2 +1,4 @@
-export Sticker from './src/Sticker';
-export Board from './src/Board';
+module.export = {
+  Sticker: require('./src/Sticker'),
+  Board: require('./src/Board'),
+}
