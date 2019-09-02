@@ -2,7 +2,7 @@
   "name": "@stickyboard/core",
   "version": "0.1.2",
   "description": "Core components for StickyBoard",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "highcharts",
     "start": "webpack --watch",
