@@ -1,6 +1,6 @@
 {
   "name": "@stickyboard/core",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Core components for StickyBoard",
   "main": "dist/index.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "build": "webpack"
   },
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-grid-layout": "^0.16.6",

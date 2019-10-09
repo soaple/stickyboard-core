@@ -56,7 +56,11 @@ class Board extends React.Component {
     toggleEditingMode = () => {
         this.setState(prevState => ({
             isEditingMode: !prevState.isEditingMode
-        }));
+        }), () => {
+            if (!this.state.isEditingMode && this.props.onSaveLayout) {
+                this.props.onSaveLayout();
+            }
+        });
     }
 
     toggleTvMode = () => {
@@ -76,7 +80,7 @@ class Board extends React.Component {
                 block.isResizable = isEditingMode;
                 block.minW = 3;
                 block.maxW = 12;
-                block.minH = 4;
+                block.minH = 2;
                 block.maxH = 16;
             });
         }
