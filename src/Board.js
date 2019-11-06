@@ -17,7 +17,7 @@ const RGL_LAYOUT_PROPS = {
     rowHeight: 40,
     cols: { lg: 12, md: 12, sm: 8, xs: 6, xxs: 4 },
     breakpoints: { lg: 1280, md: 996, sm: 768, xs: 480, xxs: 0 },
-    margin: [15, 20],
+    margin: [16, 16],
     measureBeforeMount: false,
     useCSSTransforms: true,
 };
@@ -25,8 +25,6 @@ const RGL_LAYOUT_PROPS = {
 const NUM_OF_ROWS = 24;
 
 const normalModeStyle = {
-    width: '100%',
-    height: '100%',
     backgroundColor: '#ffffff',
 }
 
@@ -36,8 +34,6 @@ const tvModeStyle = {
     top: 0,
     right: 0,
     bottom: 0,
-    width: '100%',
-    height: '100%',
     zIndex: 1500,
     backgroundColor: '#ffffff',
 }
