@@ -25,7 +25,6 @@ const RGL_LAYOUT_PROPS = {
 const NUM_OF_ROWS = 24;
 
 const normalModeStyle = {
-    backgroundColor: '#ffffff',
 }
 
 const tvModeStyle = {
@@ -35,7 +34,6 @@ const tvModeStyle = {
     right: 0,
     bottom: 0,
     zIndex: 1500,
-    backgroundColor: '#ffffff',
 }
 
 class Board extends React.Component {
