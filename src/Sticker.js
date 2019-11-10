@@ -56,7 +56,7 @@ class Sticker extends React.Component {
         }
     }
 
-    render () {
+    render() {
         const { children, ...other } = this.props;
 
         const isEditMode = this.props.className.includes('react-resizable');

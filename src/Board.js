@@ -34,6 +34,7 @@ const tvModeStyle = {
     right: 0,
     bottom: 0,
     zIndex: 1500,
+    backgroundColor: 'inherit'
 }
 
 class Board extends React.Component {
@@ -118,7 +119,7 @@ class Board extends React.Component {
         }
     }
 
-    render () {
+    render() {
         const { isEditingMode, isTvMode } = this.state;
 
         const rowHeight = window.innerHeight / NUM_OF_ROWS;
