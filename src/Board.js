@@ -17,12 +17,13 @@ const RGL_LAYOUT_PROPS = {
     rowHeight: 40,
     cols: { lg: 12, md: 12, sm: 8, xs: 6, xxs: 4 },
     breakpoints: { lg: 1280, md: 996, sm: 768, xs: 480, xxs: 0 },
-    margin: [16, 16],
-    measureBeforeMount: false,
+    margin: [ 16, 16 ],
+    measureBeforeMount: true,
     useCSSTransforms: true,
 };
 
-const NUM_OF_ROWS = 24;
+const NUM_OF_ROWS = 18;
+const MIN_ROW_HEIGHT = 32;
 
 const normalModeStyle = {
 }
@@ -74,10 +75,10 @@ class Board extends React.Component {
                 block.static = !isEditingMode;
                 block.isDraggable = isEditingMode;
                 block.isResizable = isEditingMode;
-                block.minW = 3;
+                block.minW = 2;
                 block.maxW = 12;
-                block.minH = 2;
-                block.maxH = 16;
+                block.minH = 1;
+                block.maxH = NUM_OF_ROWS;
             });
         }
 
@@ -123,12 +124,15 @@ class Board extends React.Component {
     render() {
         const { isEditingMode, isTvMode } = this.state;
 
-        const rowHeight = window.innerHeight / NUM_OF_ROWS;
-
+        const mainElem = document.getElementById('stickyboard-container');
+        const height = mainElem ? mainElem.clientHeight : window.innerHeight;
+        const rowHeight = Math.max(
+            Math.floor((height - 16 * (NUM_OF_ROWS + 2)) / NUM_OF_ROWS),
+            MIN_ROW_HEIGHT);
+            
         return (
             <SizeMe monitorHeight>
                 {({ size }) => {
-                    // console.log(size);
                     if (size.width) {
                         return (
                             <ResponsiveGridLayout
