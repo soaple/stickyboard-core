@@ -123,17 +123,23 @@ class Board extends React.Component {
 
     render() {
         const { isEditingMode, isTvMode } = this.state;
+        const { children } = this.props;
 
         const mainElem = document.getElementById('stickyboard-container');
         const height = mainElem ? mainElem.clientHeight : window.innerHeight;
         const rowHeight = Math.max(
             Math.floor((height - 16 * (NUM_OF_ROWS + 2)) / NUM_OF_ROWS),
             MIN_ROW_HEIGHT);
-            
+
+        let filteredChilren = [];
+        if (children && Array.isArray(children)) {
+            filteredChilren = children.filter((child) => { return !!child; });
+        }
+
         return (
             <SizeMe monitorHeight>
                 {({ size }) => {
-                    if (size.width) {
+                    if (size.width && filteredChilren.length > 0) {
                         return (
                             <ResponsiveGridLayout
                                 width={size.width}
@@ -143,7 +149,7 @@ class Board extends React.Component {
                                 layouts={this.getLayouts(isEditingMode)}
                                 onBreakpointChange={this.onBreakpointChange}
                                 onLayoutChange={this.onLayoutChange}>
-                                {this.props.children}
+                                {filteredChilren}
                             </ResponsiveGridLayout>);
                     } else {
                         return null;
