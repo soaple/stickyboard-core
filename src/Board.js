@@ -29,7 +29,7 @@ const normalModeStyle = {
 }
 
 const tvModeStyle = {
-    height: '100%',
+    // height: '100%',
     position: 'absolute',
     left: 0,
     top: 0,
@@ -50,6 +50,14 @@ class Board extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.setEscKeyListener();
+    }
+
+    componentWillUnmount() {
+        this.removeEscKeyListener();
+    }
+
     toggleEditingMode = () => {
         this.setState(prevState => ({
             isEditingMode: !prevState.isEditingMode
@@ -64,6 +72,21 @@ class Board extends React.Component {
         this.setState(prevState => ({
             isTvMode: !prevState.isTvMode
         }));
+    }
+
+    setEscKeyListener = () => {
+        window.onkeydown = (event) => {
+            const { isTvMode } = this.state;
+            if (event.key === 'Escape' && isTvMode) {
+                this.setState({
+                    isTvMode: false,
+                });
+            }
+        };
+    }
+
+    removeEscKeyListener = () => {
+        window.onkeypress = null;
     }
 
     getLayouts = (isEditingMode) => {
