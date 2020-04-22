@@ -29,7 +29,7 @@ const normalModeStyle = {
 }
 
 const tvModeStyle = {
-    // height: '100%',
+    minHeight: '100%',
     position: 'absolute',
     left: 0,
     top: 0,
