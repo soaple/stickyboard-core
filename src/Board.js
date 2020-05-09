@@ -54,6 +54,21 @@ class Board extends React.Component {
         this.setEscKeyListener();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const { currentBreakpoint, isEditingMode, isTvMode } = this.state;
+        const { children, layouts } = this.props;
+
+        return (
+            // Compare state
+            currentBreakpoint !== nextState.currentBreakpoint ||
+            isEditingMode !== nextState.isEditingMode ||
+            isTvMode !== nextState.isTvMode ||
+            // Compare props
+            children.length !== nextProps.children.length ||
+            layouts[currentBreakpoint].length !== nextProps.layouts[currentBreakpoint].length
+        );
+    }
+
     componentWillUnmount() {
         this.removeEscKeyListener();
     }
