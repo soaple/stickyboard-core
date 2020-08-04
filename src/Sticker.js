@@ -63,7 +63,8 @@ class Sticker extends React.Component {
 
         return (
             <Wrapper
-                {...other}>
+                {...other}
+                className={className}>
                 <Shadow isEditMode={isEditMode} />
                 <Content>
                     {children}
