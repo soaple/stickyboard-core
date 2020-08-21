@@ -1,7 +1,10 @@
 // src/Board.js
 
 import React from 'react';
-import { Responsive as ResponsiveGridLayout, WidthProvider } from 'react-grid-layout';
+import {
+    Responsive as ResponsiveGridLayout,
+    WidthProvider,
+} from 'react-grid-layout';
 // const ResponsiveReactGridLayout = WidthProvider(Responsive);
 import { SizeMe } from 'react-sizeme';
 
@@ -17,7 +20,7 @@ const RGL_LAYOUT_PROPS = {
     rowHeight: 40,
     cols: { lg: 12, md: 12, sm: 8, xs: 6, xxs: 4 },
     breakpoints: { lg: 1280, md: 996, sm: 768, xs: 480, xxs: 0 },
-    margin: [ 16, 16 ],
+    margin: [16, 16],
     measureBeforeMount: true,
     useCSSTransforms: true,
 };
@@ -25,8 +28,7 @@ const RGL_LAYOUT_PROPS = {
 const NUM_OF_ROWS = 18;
 const MIN_ROW_HEIGHT = 32;
 
-const normalModeStyle = {
-}
+const normalModeStyle = {};
 
 const tvModeStyle = {
     minHeight: '100%',
@@ -36,18 +38,18 @@ const tvModeStyle = {
     right: 0,
     bottom: 0,
     zIndex: 1500,
-    backgroundColor: 'inherit'
-}
+    backgroundColor: 'inherit',
+};
 
 class Board extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
             currentBreakpoint: 'lg',
             isEditingMode: false,
             isTvMode: false,
-        }
+        };
     }
 
     componentDidMount() {
@@ -65,7 +67,8 @@ class Board extends React.Component {
             isTvMode !== nextState.isTvMode ||
             // Compare props
             children.length !== nextProps.children.length ||
-            layouts[currentBreakpoint].length !== nextProps.layouts[currentBreakpoint].length
+            layouts[currentBreakpoint].length !==
+                nextProps.layouts[currentBreakpoint].length
         );
     }
 
@@ -74,20 +77,29 @@ class Board extends React.Component {
     }
 
     toggleEditingMode = () => {
-        this.setState(prevState => ({
-            isEditingMode: !prevState.isEditingMode
-        }), () => {
-            if (!this.state.isEditingMode && this.props.onSaveLayout) {
-                this.props.onSaveLayout();
+        this.setState(
+            (prevState) => ({
+                isEditingMode: !prevState.isEditingMode,
+            }),
+            () => {
+                if (!this.state.isEditingMode && this.props.onSaveLayout) {
+                    this.props.onSaveLayout();
+                }
             }
+        );
+    };
+
+    setEditingMode = (editingMode) => {
+        this.setState({
+            isEditingMode: editingMode,
         });
-    }
+    };
 
     toggleTvMode = () => {
-        this.setState(prevState => ({
-            isTvMode: !prevState.isTvMode
+        this.setState((prevState) => ({
+            isTvMode: !prevState.isTvMode,
         }));
-    }
+    };
 
     setEscKeyListener = () => {
         window.onkeydown = (event) => {
@@ -98,11 +110,11 @@ class Board extends React.Component {
                 });
             }
         };
-    }
+    };
 
     removeEscKeyListener = () => {
         window.onkeypress = null;
-    }
+    };
 
     getLayouts = (isEditingMode) => {
         const { layouts } = this.props;
@@ -122,13 +134,13 @@ class Board extends React.Component {
 
         return JSON.parse(JSON.stringify(layouts));
         // return layouts;
-    }
+    };
 
     onBreakpointChange = (breakpoint) => {
         this.setState({
             currentBreakpoint: breakpoint,
         });
-    }
+    };
 
     onLayoutChange = (currentLayout, allLayouts) => {
         // console.log('onLayoutChange', currentLayout, allLayouts);
@@ -157,7 +169,7 @@ class Board extends React.Component {
         if (this.props.onLayoutChange) {
             this.props.onLayoutChange(newLayouts);
         }
-    }
+    };
 
     render() {
         const { isEditingMode, isTvMode } = this.state;
@@ -167,11 +179,14 @@ class Board extends React.Component {
         const height = mainElem ? mainElem.clientHeight : window.innerHeight;
         const rowHeight = Math.max(
             Math.floor((height - 16 * (NUM_OF_ROWS + 2)) / NUM_OF_ROWS),
-            MIN_ROW_HEIGHT);
+            MIN_ROW_HEIGHT
+        );
 
         let filteredChilren = [];
         if (children && Array.isArray(children)) {
-            filteredChilren = children.filter((child) => { return !!child; });
+            filteredChilren = children.filter((child) => {
+                return !!child;
+            });
         }
 
         return (
@@ -188,13 +203,14 @@ class Board extends React.Component {
                                 onBreakpointChange={this.onBreakpointChange}
                                 onLayoutChange={this.onLayoutChange}>
                                 {filteredChilren}
-                            </ResponsiveGridLayout>);
+                            </ResponsiveGridLayout>
+                        );
                     } else {
                         return null;
                     }
                 }}
             </SizeMe>
-        )
+        );
     }
 }
 

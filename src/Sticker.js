@@ -21,8 +21,7 @@ const hideAnim = keyframes`
     }
 `;
 
-const Wrapper = styled.div`
-`;
+const Wrapper = styled.div``;
 
 const Shadow = styled.div`
     position: absolute;
@@ -31,10 +30,11 @@ const Shadow = styled.div`
     right: 0;
     bottom: 0;
     border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba(187,187,187,1);
+    box-shadow: 0 4px 8px 0 rgba(187, 187, 187, 1);
     background-color: #ffffff;
-    visibility: ${props => props.isEditMode ? 'visible' : 'hidden'};
-    animation: ${props => props.isEditMode ? showAnim : hideAnim} 0.5s ease-in-out;
+    visibility: ${(props) => (props.isEditingMode ? 'visible' : 'hidden')};
+    animation: ${(props) => (props.isEditingMode ? showAnim : hideAnim)} 0.5s
+        ease-in-out;
     -webkit-transition: -webkit-visibility 0.5s ease-in-out;
     transition: visibility 0.5s ease-in-out;
 `;
@@ -48,29 +48,59 @@ const Content = styled.div`
     z-index: 1;
 `;
 
+const MenuContainer = styled.div`
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+`;
+
+const MenuButton = styled.button`
+    width: 100%;
+    padding: 4px 8px;
+    &:not(:last-child) {
+        margin-bottom: 8px;
+    }
+    font-size: 16px;
+    color: #333333;
+`;
+
 class Sticker extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
-        this.state = {
-        }
+        this.state = {};
     }
 
     render() {
-        const { children, className, ...other } = this.props;
+        const {
+            children,
+            className,
+            onChange,
+            onDelete,
+            ...other
+        } = this.props;
 
-        const isEditMode = className && className.includes('react-resizable');
+        const isEditingMode =
+            className && className.includes('react-resizable');
 
         return (
-            <Wrapper
-                {...other}
-                className={className}>
-                <Shadow isEditMode={isEditMode} />
-                <Content>
-                    {children}
-                </Content>
+            <Wrapper {...other} className={className}>
+                <Shadow isEditingMode={isEditingMode} />
+                <Content>{children}</Content>
+
+                {isEditingMode && (
+                    <MenuContainer>
+                        <MenuButton onClick={onChange}>Change</MenuButton>
+                        <MenuButton onClick={onDelete}>Delete</MenuButton>
+                    </MenuContainer>
+                )}
             </Wrapper>
-        )
+        );
     }
 }
 

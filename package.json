@@ -1,6 +1,6 @@
 {
   "name": "@stickyboard/core",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Core components for StickyBoard",
   "main": "dist/index.js",
   "scripts": {
@@ -43,6 +43,7 @@
     "babel-eslint": "^7.1.1",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "prettier": "^2.0.5",
     "style-loader": "^1.0.0",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6"
