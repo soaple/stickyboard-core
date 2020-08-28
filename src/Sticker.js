@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import DescriptionIcon from '@material-ui/icons/Description';
+
 const showAnim = keyframes`
     from {
         opacity: 0;
@@ -70,113 +70,82 @@ const MenuButton = styled.button`
     color: #333333;
 `;
 
-const WriteInfo = styled(DescriptionIcon)`
+const InfoBtn = styled.button`
     position: absolute;
-    z-index: 8;
-    display: flex;
-    top: 10px;
-    left: 5px;
-    cursor:pointer;
+    background-color: red;
+    border: none;
+    z-index: 4;
+    border-radius: 10px;
+    color: #ffffff;
 `
 
-const Container = styled.span`
+const Name = styled.div`
     display: flex;
-    margin-top: 30px;
-    width: calc(100%);
-    height: calc(100% - 50px);
+    font-weight: 900;
+    font-size: 15px;
+    justify-content: center;
+    line-height: 1.5;
 `
 
-const TextArea = styled.textarea`
+const Description = styled.div`
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+`
+
+const InfoContainer = styled.div`
+    position: absolute;
+    background-color: #FFFFFF;
     width: 100%;
     height: 100%;
-    padding: 10px;
-    resize: none;
-    margin-top: 30px;
-    border-radius: 10px;
-    outline: none;
-    margin: 10px;
-    z-index: 2;
+    opacity: 0.8;
+    z-index: 3
 `
 
 class Sticker extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            content: '',
-            isMemoOn: false,        
-            isMoving: false,
+            isInfoOn: false,
         };
     }
 
-    memoClick = (e) => {
-        this.setState({isMoving: !this.state.isMoving});
-        e.stopPropagation();
-    }
-
-    wrapperMouseDown = (e) => {
-        !this.state.isMemoOn && this.props.onMouseDown(e);
-    }
-
-    textClick = (e) => {
-        this.setState({isMemoOn: true})
-        e.stopPropagation();
-    }
-    
-    wrapperClick = (e) => {
-        this.setState({isMemoOn: false});
-    }
-
-    componentDidMount() {
-        this.setState({content: this.props.description[this.props.name]});
-    }
-
-    memoChange = (e) => {
-        this.setState({content: e.target.value});
-        this.props.descriptionChange(e);
+    onClick= () => {
+        this.setState({isInfoOn: !this.state.isInfoOn});
     }
 
     render() {
         const {
             children,
-            name,
-            description,
-            descriptionChange,
             className,
             onChange,
+            name,
+            description,
             onDelete,
             ...other
         } = this.props;
-
-        const isEditingMode = className && className.includes('react-resizable');
-        const {isMoving, content} = this.state;
-
+        const {isInfoOn} = this.state;
+        const isEditingMode =
+            className && className.includes('react-resizable');
         return (
-            <Wrapper 
-                {...other} 
-                className={className} 
-                onClick={this.wrapperClick} 
-                onMouseDown={this.wrapperMouseDown}>
-                { isEditingMode && <WriteInfo onClick={this.memoClick}/> }
-                    <Shadow isEditingMode={isEditingMode}/>
-                    <Content>
-                        {children}
-                        {isEditingMode && (
-                            <MenuContainer>
-                                <MenuButton onClick={onChange}>Change</MenuButton>
-                                <MenuButton onClick={onDelete}>Delete</MenuButton>
-                            </MenuContainer>
-                        )}
-                    </Content>
-                    {
-                        isMoving &&
-                        <Container>
-                            <TextArea
-                                value={content}
-                                name={name}
-                                onMouseDown={this.textClick}
-                                onChange={this.memoChange}/>
-                        </Container>
-                    }
+            <Wrapper {...other} className={className}>
+                <Shadow isEditingMode={isEditingMode} />
+                <Content>{children}</Content>
+                <InfoBtn onClick={this.onClick}>Info</InfoBtn>
+                {
+                    isInfoOn &&
+                    <InfoContainer>
+                        <Name>{name}</Name>
+                        <Description>{description}</Description>
+                    </InfoContainer>
+                }
+                {isEditingMode && (
+                    <MenuContainer>
+                        <MenuButton onClick={onChange}>Change</MenuButton>
+                        <MenuButton onClick={onDelete}>Delete</MenuButton>
+                    </MenuContainer>
+                )}
             </Wrapper>
         );
     }
