@@ -21,7 +21,8 @@ const hideAnim = keyframes`
     }
 `;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+`;
 
 const Shadow = styled.div`
     position: absolute;
@@ -69,11 +70,49 @@ const MenuButton = styled.button`
     color: #333333;
 `;
 
+const InfoBtn = styled.button`
+    position: absolute;
+    background-color: red;
+    border: none;
+    z-index: 4;
+    border-radius: 10px;
+    color: #ffffff;
+`
+
+const Name = styled.div`
+    display: flex;
+    font-weight: 900;
+    font-size: 15px;
+    justify-content: center;
+    line-height: 1.5;
+`
+
+const Description = styled.div`
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+`
+
+const InfoContainer = styled.div`
+    position: absolute;
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    z-index: 3
+`
+
 class Sticker extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            isInfoOn: false,
+        };
+    }
+
+    onClick= () => {
+        this.setState({isInfoOn: !this.state.isInfoOn});
     }
 
     render() {
@@ -81,18 +120,26 @@ class Sticker extends React.Component {
             children,
             className,
             onChange,
+            name,
+            description,
             onDelete,
             ...other
         } = this.props;
-
+        const {isInfoOn} = this.state;
         const isEditingMode =
             className && className.includes('react-resizable');
-
         return (
             <Wrapper {...other} className={className}>
                 <Shadow isEditingMode={isEditingMode} />
                 <Content>{children}</Content>
-
+                <InfoBtn onClick={this.onClick}>Info</InfoBtn>
+                {
+                    isInfoOn &&
+                    <InfoContainer>
+                        <Name>{name}</Name>
+                        <Description>{description}</Description>
+                    </InfoContainer>
+                }
                 {isEditingMode && (
                     <MenuContainer>
                         <MenuButton onClick={onChange}>Change</MenuButton>
