@@ -1,6 +1,7 @@
 // src/Board.js
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Responsive as ResponsiveGridLayout,
     WidthProvider,
@@ -56,21 +57,21 @@ class Board extends React.Component {
         this.setEscKeyListener();
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        const { currentBreakpoint, isEditingMode, isTvMode } = this.state;
-        const { children, layouts } = this.props;
-
-        return (
-            // Compare state
-            currentBreakpoint !== nextState.currentBreakpoint ||
-            isEditingMode !== nextState.isEditingMode ||
-            isTvMode !== nextState.isTvMode ||
-            // Compare props
-            children.length !== nextProps.children.length ||
-            layouts[currentBreakpoint].length !==
-                nextProps.layouts[currentBreakpoint].length
-        );
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     const { currentBreakpoint, isEditingMode, isTvMode } = this.state;
+    //     const { children, layouts } = this.props;
+    //
+    //     return (
+    //         // Compare state
+    //         currentBreakpoint !== nextState.currentBreakpoint ||
+    //         isEditingMode !== nextState.isEditingMode ||
+    //         isTvMode !== nextState.isTvMode ||
+    //         // Compare props
+    //         children.length !== nextProps.children.length ||
+    //         layouts[currentBreakpoint].length !==
+    //             nextProps.layouts[currentBreakpoint].length
+    //     );
+    // }
 
     componentWillUnmount() {
         this.removeEscKeyListener();
@@ -122,6 +123,7 @@ class Board extends React.Component {
         for (let key in layouts) {
             let layout = layouts[key];
             layout.forEach((block) => {
+                block.i = block.i.toString();
                 block.static = !isEditingMode;
                 block.isDraggable = isEditingMode;
                 block.isResizable = isEditingMode;
@@ -153,14 +155,13 @@ class Board extends React.Component {
             let newLayout = [];
             let layout = allLayouts[breakpoint];
             layout.map((block) => {
-                let newBlock = {};
-                newBlock.i = block.i;
-                newBlock.x = block.x;
-                newBlock.y = block.y;
-                newBlock.w = block.w;
-                newBlock.h = block.h;
-
-                newLayout.push(newBlock);
+                newLayout.push({
+                    i: block.i.toString(),
+                    x: block.x,
+                    y: block.y,
+                    w: block.w,
+                    h: block.h,
+                });
             });
 
             newLayouts[breakpoint] = newLayout;
@@ -213,5 +214,11 @@ class Board extends React.Component {
         );
     }
 }
+
+Board.propTypes = {
+    layouts: PropTypes.array.isRequired,
+    onLayoutChange: PropTypes.func,
+    onSaveLayout: PropTypes.func,
+};
 
 export default Board;
