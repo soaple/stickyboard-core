@@ -1,6 +1,6 @@
 {
   "name": "@stickyboard/core",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Core components for StickyBoard",
   "main": "dist/index.js",
   "scripts": {

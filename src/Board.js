@@ -216,7 +216,7 @@ class Board extends React.Component {
 }
 
 Board.propTypes = {
-    layouts: PropTypes.array.isRequired,
+    layouts: PropTypes.object.isRequired,
     onLayoutChange: PropTypes.func,
     onSaveLayout: PropTypes.func,
 };
